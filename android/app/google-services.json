@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "23427332278",
+    "project_id": "centralizedia-3fa17",
+    "storage_bucket": "centralizedia-3fa17.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:23427332278:android:0bb1b4ef68b8f9e5bd8e17",
+        "android_client_info": {
+          "package_name": "com.cia.cia"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "23427332278-j8jdgu48con44dj727n2ff0d4nqk88l9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cia.cia",
+            "certificate_hash": "9f7e605bb060204c241f890eed4740c29957d7fe"
+          }
+        },
+        {
+          "client_id": "23427332278-0pl0ue16l49cr6ke2ppr45sr4ok8fdkh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBf3AO8flAaYmg_jW1nVU5x1_B4ipz18a0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "23427332278-0pl0ue16l49cr6ke2ppr45sr4ok8fdkh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
