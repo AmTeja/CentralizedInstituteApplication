@@ -24,6 +24,7 @@ class Slot extends StatelessWidget {
           Icon(slotData.iconData, size: 27, color: const Color(0xFF3B3B3B),),
           const SizedBox(height: 5.0,),
           Text(slotData.title,
+            textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.headline5!
                 .copyWith(color: secondaryTextColor),)
         ],

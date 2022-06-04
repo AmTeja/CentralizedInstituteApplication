@@ -31,7 +31,7 @@ class AttendanceScreen extends StatelessWidget {
           ),
           TotalAttendanceCard(),
           WeeklyAttendanceCard(),
-          // SubjectAttendanceContainer()
+          SubjectAttendanceContainer()
         ],
       ),
     );
@@ -47,7 +47,7 @@ class SubjectAttendanceContainer extends StatefulWidget {
 
 class _SubjectAttendanceContainerState extends State<SubjectAttendanceContainer> {
 
-  String? selectedValue;
+  String? selectedValue = "all";
 
   @override
   Widget build(BuildContext context) {
@@ -145,16 +145,27 @@ class SubjectAttendanceCard extends StatelessWidget {
   final List<CourseProfile> courses;
   final String selectedValue;
 
-  SubjectAttendanceCard({
+  const SubjectAttendanceCard({
     Key? key, required this.courses,
     required this.selectedValue
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    print('rebuilt');
     CourseProfile? courseProfile = selectedValue != "all" ? courses[courses.indexWhere((element) => element.courseCode == selectedValue)] : null;
-    return Expanded(child: AttendanceChart(courseProfiles: selectedValue == "all" ? courses : [courseProfile!],));
+    return Expanded(
+        child: Row(
+          children: [
+            AttendanceChart(courseProfiles: selectedValue == "all"
+                ? courses : [courseProfile!],),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("Attended: ")
+              ],
+            )
+          ],
+        ));
   }
 }
 
@@ -170,7 +181,7 @@ class AttendanceChart extends StatefulWidget {
 
 class _AttendanceChartState extends State<AttendanceChart> {
 
-  int touchedIndex = 0;
+  int touchedIndex = -1;
 
   @override
   Widget build(BuildContext context) {
@@ -203,34 +214,49 @@ class _AttendanceChartState extends State<AttendanceChart> {
 
   List<PieChartSectionData> showingSections() {
 
-      return List.generate(2, (index) {
-        final isTouched = index == touchedIndex;
-        final fontSize = isTouched ? 20.0 : 16.0;
-        final radius = isTouched ? 110.0 : 100.0;
-        final widgetSize = isTouched ? 55.0 : 40.0;
-        var course = widget.courseProfiles![0];
-        var attendedPercent = (course.totalAttended)/(course.totalHeld);
-        switch (index) {
-          case 0:
-            return PieChartSectionData(
-                value: attendedPercent * 100,
-                color: colorsForChart[1],
-                title: "Attended: ${course.totalAttended}",
-                radius: radius,
-                titleStyle: TextStyle(fontSize: fontSize)
-            );
-          case 1:
-            return PieChartSectionData(
-              value: (100 - (attendedPercent * 100)),
-              color: colorsForChart[0],
-              title: "Absent: ${course.totalHeld - course.totalAttended}",
+      if(widget.courseProfiles!.length > 1) {
+        List<PieChartSectionData> sections = [];
+        int i = 0;
+        for(CourseProfile course in widget.courseProfiles!) {
+          var temp = generateAttendedPresentSections(course);
+          for(var section in temp) {
+            sections.add(section);
+          }
+        }
+        return sections;
+      }
+      return generateAttendedPresentSections(widget.courseProfiles![0]);
+  }
+
+  List<PieChartSectionData> generateAttendedPresentSections(CourseProfile course) {
+    return List.generate(2, (index) {
+      final isTouched = index == touchedIndex;
+      final fontSize = isTouched ? 14.0 : 12.0;
+      final radius = isTouched ? 90.0 : 80.0;
+      final widgetSize = isTouched ? 55.0 : 40.0;
+
+      var attendedPercent = (course.totalAttended)/(course.totalHeld);
+      switch (index) {
+        case 0:
+          return PieChartSectionData(
+              value: attendedPercent * 100,
+              color: colorsForChart[1],
+              title: "${course.courseCode} Attended",
               radius: radius,
               titleStyle: TextStyle(fontSize: fontSize)
-            );
-          default:
-            throw "oops";
-        }
-      });
+          );
+        case 1:
+          return PieChartSectionData(
+            value: (100 - (attendedPercent * 100)),
+            color: colorsForChart[0],
+            title: "Absent: ${course.totalHeld - course.totalAttended}",
+            radius: radius,
+            titleStyle: TextStyle(fontSize: fontSize)
+          );
+        default:
+          throw "oops";
+      }
+    });
   }
 }
 

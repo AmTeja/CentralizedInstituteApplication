@@ -18,7 +18,7 @@ class _ExpansionListState extends State<ExpansionList> {
     ExpansionItem(headerValue: 'Academic Details', headerIcon: Icons.school_rounded, tag: 'schoolItem'),
     ExpansionItem(headerValue: 'Fee Details', headerIcon: Icons.card_membership, tag: 'feeItem'),
     ExpansionItem(headerValue: 'Counselling Details', headerIcon: Icons.supervisor_account_sharp, tag: 'counsellingItem'),
-    ExpansionItem(headerValue: 'My Complaints', headerIcon: Icons.question_mark_rounded, tag: 'complaintsItem'),
+    ExpansionItem(headerValue: 'My Complaints', headerIcon: Icons.question_mark_rounded, tag: 'complaintsItem',)
   ];
 
   @override

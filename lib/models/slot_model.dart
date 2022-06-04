@@ -15,6 +15,7 @@ class SlotData extends Equatable {
     SlotData(title: "Attendance", iconData: Icons.front_hand, onTap: (BuildContext context) => Navigator.push(context, AttendanceScreen.route())),
     SlotData(title: "Performance", iconData: Icons.school, onTap: (BuildContext context) {}),
     SlotData(title: "Personal Details", iconData: Icons.person, onTap: (BuildContext context) => Navigator.push(context, ProfileScreen.route())),
+    SlotData(title: "Complaints", iconData: Icons.question_mark_rounded, onTap: (BuildContext context) => Navigator.push(context, ComplaintsAndQueriesScreen.route()))
   ];
 
   @override
