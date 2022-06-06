@@ -15,12 +15,19 @@ class AttendanceRepository {
         _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
 
   Stream<List<Session>> get attendance async* {
+    DateTime now = DateTime.now();
+    DateTime latest = DateTime(now.year, now.month, now.day, 23, 59, 59);
+    DateTime last = latest.subtract(const Duration(days: 7, hours: 23, minutes: 59, seconds: 59));
+
     CollectionReference attendanceRef = _firebaseFirestore.collection('Attendances');
     var docId = await attendanceRef.where('email', isEqualTo: _firebaseAuth.currentUser!.email).get().then((docs){
       return docs.docs[0].id;
     });
     yield* attendanceRef.doc(docId).collection('AttendanceSessions')
-        .where('startTime', isLessThanOrEqualTo: DateTime.now()).orderBy('startTime').limit(42).snapshots().map((sessionsSnaps) {
+        .where('startTime',
+        isGreaterThanOrEqualTo:  last,
+        isLessThanOrEqualTo: latest)
+        .orderBy('startTime').limit(42).snapshots().map((sessionsSnaps) {
       return sessionsSnaps.docs.map((e) {
         return Session.fromSnapshot(e);
       }).toList();

@@ -1,4 +1,5 @@
 import 'package:cia/bloc_observer.dart';
+import 'package:cia/blocs/announcement/announcement_bloc.dart';
 import 'package:cia/blocs/blocs.dart';
 import 'package:cia/config/routes.dart';
 import 'package:cia/config/theme.dart';
@@ -19,12 +20,16 @@ Future<void> main() {
     final profileRepository = ProfileRepository();
     final promotionRepository = PromotionRepository();
     final attendanceRepository = AttendanceRepository();
+    final complaintsRepository = ComplaintsRepository();
+    final announcementsRepository = AnnouncementsRepository();
 
     runApp(App(
       authRepository: authRepository,
       profileRepository: profileRepository,
       promotionRepository: promotionRepository,
       attendanceRepository: attendanceRepository,
+      complaintsRepository: complaintsRepository,
+      announcementsRepository: announcementsRepository,
     ));
   },
     blocObserver: AppBlocObserver()
@@ -36,17 +41,23 @@ class App extends StatelessWidget {
   final ProfileRepository _profileRepository;
   final PromotionRepository _promotionRepository;
   final AttendanceRepository _attendanceRepository;
+  final ComplaintsRepository _complaintsRepository;
+  final AnnouncementsRepository _announcementsRepository;
 
   const App({Key? key,
     required AuthRepository authRepository,
     required ProfileRepository profileRepository,
     required PromotionRepository promotionRepository,
-    required AttendanceRepository attendanceRepository
+    required AttendanceRepository attendanceRepository,
+    required ComplaintsRepository complaintsRepository,
+    required AnnouncementsRepository announcementsRepository,
   })
       : _authRepository = authRepository,
         _profileRepository = profileRepository,
         _promotionRepository = promotionRepository,
         _attendanceRepository = attendanceRepository,
+        _complaintsRepository = complaintsRepository,
+        _announcementsRepository = announcementsRepository,
         super(key: key);
 
   @override
@@ -56,7 +67,9 @@ class App extends StatelessWidget {
           RepositoryProvider.value(value: _authRepository),
           RepositoryProvider.value(value: _profileRepository),
           RepositoryProvider.value(value: _promotionRepository),
-          RepositoryProvider.value(value: _attendanceRepository)
+          RepositoryProvider.value(value: _attendanceRepository),
+          RepositoryProvider.value(value: _complaintsRepository),
+          RepositoryProvider.value(value: _announcementsRepository),
         ],
       child: MultiBlocProvider(
         providers: [
@@ -65,6 +78,8 @@ class App extends StatelessWidget {
           BlocProvider(create: (_) => PromotionBloc(promotionRepository: _promotionRepository)..add(LoadPromotions())),
           BlocProvider(create: (_) => AttendanceBloc(attendanceRepository: _attendanceRepository)..add(LoadAttendance())),
           BlocProvider(create: (_) => AttendanceProfileBloc(attendanceRepository: _attendanceRepository)..add(LoadAttendanceProfile())),
+          BlocProvider(create: (_) => ComplaintsBloc(complaintsRepository: _complaintsRepository)..add(LoadComplaints())),
+          BlocProvider(create: (_) => AnnouncementBloc(announcementsRepository: _announcementsRepository)..add(LoadAnnouncements()))
         ],
         child: const AppView(),
       ),

@@ -23,7 +23,7 @@ class PromotionBloc extends Bloc<PromotionEvent, PromotionState> {
   void _mapLoadPromotionsToState(
       LoadPromotions event,
       Emitter<PromotionState> emit
-      ) async {
+      ) {
     _promotionSubscription?.cancel();
     _promotionSubscription = _promotionRepository.getAllPromotions()
         .listen((promotions) => add(UpdatePromotions(promotions)));

@@ -83,7 +83,17 @@ class Bio {
     );
     return bio;
   }
-  
+
+  Map<String, dynamic> toMap() => {
+    "aadharNo" : aadharNo,
+    "address" : address,
+    "caste" : caste,
+    "dateOfBirth" : dateOfBirth,
+    "gender" : gender,
+    "nationality" : nationality,
+    "religion" : religion
+  };
+
 }
 
 
@@ -107,5 +117,9 @@ class Education {
     return education;
   }
 
-
+  Map<String, dynamic> toMap() => {
+    'branchName' : branchName,
+    'branchCode' : branchCode,
+    'section' : section
+  };
 }

@@ -1,5 +1,6 @@
 import 'package:cia/blocs/blocs.dart';
 import 'package:cia/models/models.dart';
+import 'package:cia/widgets/profile/expansion_list/academic_expandable.dart';
 import 'package:cia/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,7 +19,6 @@ class _ExpansionListState extends State<ExpansionList> {
     ExpansionItem(headerValue: 'Academic Details', headerIcon: Icons.school_rounded, tag: 'schoolItem'),
     ExpansionItem(headerValue: 'Fee Details', headerIcon: Icons.card_membership, tag: 'feeItem'),
     ExpansionItem(headerValue: 'Counselling Details', headerIcon: Icons.supervisor_account_sharp, tag: 'counsellingItem'),
-    ExpansionItem(headerValue: 'My Complaints', headerIcon: Icons.question_mark_rounded, tag: 'complaintsItem',)
   ];
 
   @override
@@ -45,9 +45,14 @@ class _ExpansionListState extends State<ExpansionList> {
                   if(item.tag == 'bioItem') {
                     item.expandedWidget = BioExpandable(context: context, bio: state.studentProfile.bio!);
                   }
+                  if(item.tag == 'schoolItem') {
+                    item.expandedWidget = AcademicExpandable(context: context, education: state.studentProfile.education!);
+                  }
                   return ExpansionPanel(
                       canTapOnHeader: true,
-                      backgroundColor: Colors.transparent,
+                      backgroundColor: item.isExpanded
+                          ? Colors.white
+                          : Colors.transparent,
                       isExpanded: item.isExpanded,
                       headerBuilder: (context, isExpanded) {
                         return ExpansionHeader(

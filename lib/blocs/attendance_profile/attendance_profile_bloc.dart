@@ -16,11 +16,11 @@ class AttendanceProfileBloc extends Bloc<AttendanceProfileEvent, AttendanceProfi
     required AttendanceRepository attendanceRepository
   }) : _attendanceRepository = attendanceRepository,
         super(AttendanceProfileLoading()) {
-    on<LoadAttendanceProfile>(onLoadAttendanceProfile);
-    on<UpdateAttendanceProfile>(onUpdateAttendanceProfile);
+    on<LoadAttendanceProfile>(_onLoadAttendanceProfile);
+    on<UpdateAttendanceProfile>(_onUpdateAttendanceProfile);
   }
 
-  void onLoadAttendanceProfile(
+  void _onLoadAttendanceProfile(
       LoadAttendanceProfile event,
       Emitter<AttendanceProfileState> emit
       ) {
@@ -29,7 +29,7 @@ class AttendanceProfileBloc extends Bloc<AttendanceProfileEvent, AttendanceProfi
         .listen((AttendanceProfile attendanceProfile) => add(UpdateAttendanceProfile(attendanceProfile)));
   }
 
-  void onUpdateAttendanceProfile(
+  void _onUpdateAttendanceProfile(
       UpdateAttendanceProfile event,
       Emitter<AttendanceProfileState> emit
       ) => emit(AttendanceProfileLoaded(attendanceProfile: event.attendanceProfile));

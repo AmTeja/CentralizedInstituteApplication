@@ -13,6 +13,7 @@ class ComplaintsRepository {
   Stream<List<Complaint>> get complaints {
     return _firebaseFirestore.collection('Complaints')
         .where('filedByEmail', isEqualTo:  _firebaseAuth.currentUser!.email)
+        .orderBy('filedOn', descending: true)
         .snapshots(includeMetadataChanges: true).map((snapshot) {
       return (snapshot.docs.map((doc) => Complaint.fromSnapshot(doc))).toList();
     });

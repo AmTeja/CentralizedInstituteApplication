@@ -5,37 +5,37 @@ import 'package:equatable/equatable.dart';
 class Complaint extends Equatable {
 
   const Complaint({
-    required this.resolved,
-    required this.filedByRollNo,
+    this.resolved = false,
     required this.filedByEmail,
     required this.title,
     required this.description,
+    required this.filedOn,
   });
 
   final bool resolved;
-  final String filedByRollNo;
   final String filedByEmail;
   final String title;
   final String description;
+  final DateTime filedOn;
 
   factory Complaint.fromSnapshot(DocumentSnapshot snapshot) => Complaint(
       resolved: snapshot['resolved'],
-      filedByRollNo: snapshot['filedByRollNo'],
       filedByEmail: snapshot['filedByEmail'],
       title: snapshot['title'],
-      description: snapshot['description']
+      description: snapshot['description'],
+      filedOn: (snapshot['filedOn'] as Timestamp).toDate()
   );
 
   Map<String, dynamic> toMap() => {
     "resolved" : resolved,
-    "filedByRollNo" : filedByRollNo,
     "filedByEmail" : filedByEmail,
     "title" : title,
-    "description" : description
+    "description" : description,
+    "filedOn" : filedOn,
   };
 
   @override
   // TODO: implement props
-  List<Object?> get props => [title, description, filedByEmail, filedByRollNo, resolved];
+  List<Object?> get props => [title, description, filedByEmail, filedOn ,resolved];
 
 }

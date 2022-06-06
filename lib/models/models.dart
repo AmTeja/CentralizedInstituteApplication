@@ -5,3 +5,4 @@ export 'promotion_model.dart';
 export 'slot_model.dart';
 export 'attendance_model.dart';
 export 'complaint_model.dart';
+export 'announcement_model.dart';
