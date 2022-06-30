@@ -21,6 +21,7 @@ class AnnouncementsRepository {
         isGreaterThanOrEqualTo:  last,
         isLessThanOrEqualTo: latest)
         .orderBy('postedOn').limit(20).snapshots().map((announcementSnaps) {
+          print(announcementSnaps.docs.length);
       return announcementSnaps.docs.map((e) {
         return Announcement.fromSnapshot(e);
       }).toList();

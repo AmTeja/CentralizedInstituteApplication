@@ -29,7 +29,7 @@ class WeeklyAttendanceCard extends StatelessWidget {
                 return const Center(child: CircularProgressIndicator(),);
               }
               if(state is AttendanceLoaded) {
-                return  DefaultTabController(
+                return  state.days > 0 ? DefaultTabController(
                   initialIndex: state.days - 1,
                   length: state.days,
                   child: Column(
@@ -67,9 +67,12 @@ class WeeklyAttendanceCard extends StatelessWidget {
                       const SizedBox(height: 20,)
                     ],
                   ),
+                ) : Container(
+                  alignment: Alignment.center,
+                  child: const Text("No data to display"),
                 );
               }
-              return const Center(child: Text("Something went wrong!"),);
+              return Center(child: Text("Something went wrong!", style: Theme.of(context).textTheme.headline2,),);
             },
           ),
         ),

@@ -15,12 +15,15 @@ class AttendanceRepository {
         _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
 
   Stream<List<Session>> get attendance async* {
+
+    var studentDoc = await FirebaseFirestore.instance.collection('StudentProfiles').where('email', isEqualTo: _firebaseAuth.currentUser!.email).get();
+    String rollNo = studentDoc.docs[0].get('rollNo');
     DateTime now = DateTime.now();
     DateTime latest = DateTime(now.year, now.month, now.day, 23, 59, 59);
     DateTime last = latest.subtract(const Duration(days: 7, hours: 23, minutes: 59, seconds: 59));
 
     CollectionReference attendanceRef = _firebaseFirestore.collection('Attendances');
-    var docId = await attendanceRef.where('email', isEqualTo: _firebaseAuth.currentUser!.email).get().then((docs){
+    var docId = await attendanceRef.where('rollNo', isEqualTo: rollNo).get().then((docs){
       return docs.docs[0].id;
     });
     yield* attendanceRef.doc(docId).collection('AttendanceSessions')
