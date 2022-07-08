@@ -32,7 +32,7 @@ Future<void> main() {
       announcementsRepository: announcementsRepository,
     ));
   },
-    blocObserver: AppBlocObserver()
+    // blocObserver: AppBlocObserver()
   );
 }
 

@@ -37,10 +37,13 @@ class AttendanceRepository {
     });
   }
 
-  Stream<AttendanceProfile> get attendanceProfile  {
+  Stream<AttendanceProfile> get attendanceProfile async* {
     try {
+      var studentDoc = await FirebaseFirestore.instance.collection('StudentProfiles').where('email', isEqualTo: _firebaseAuth.currentUser!.email).get();
+      String rollNo = studentDoc.docs[0].get('rollNo');
       CollectionReference attendanceRef = _firebaseFirestore.collection('Attendances');
-      return attendanceRef.where('email', isEqualTo: _firebaseAuth.currentUser!.email).snapshots().map((profileSnaps) {
+      yield* attendanceRef.where('rollNo', isEqualTo: rollNo).snapshots().map((profileSnaps) {
+        print(profileSnaps.docs[0].data());
         return profileSnaps.docs.map((e) => AttendanceProfile.fromSnap(e)).toList()[0];
       });
     } catch(e) {
